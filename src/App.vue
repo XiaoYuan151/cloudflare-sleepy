@@ -37,21 +37,21 @@ onMounted(() => {
             computer.value.style = "";
             computer.value.textContent = json.devices.computer;
           } else {
-            computer.value.style = "gray";
+            computer.value.style.color = "gray";
             computer.value.textContent = "未使用";
           }
           if (json.devices.tablet) {
             tablet.value.style = "";
             tablet.value.textContent = json.devices.tablet;
           } else {
-            tablet.value.style = "gray";
+            tablet.value.style.color = "gray";
             tablet.value.textContent = "未使用";
           }
           if (json.devices.phone) {
             phone.value.style = "";
             phone.value.textContent = json.devices.phone;
           } else {
-            phone.value.style = "gray";
+            phone.value.style.color = "gray";
             phone.value.textContent = "未使用";
           }
         }
