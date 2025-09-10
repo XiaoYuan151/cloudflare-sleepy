@@ -1,21 +1,48 @@
 <script setup>
-fetch("/api/get", {
-  method: "GET",
-})
-  .then((response) => {
-    const json = response.json();
-    const status = json.status;
-    const device = json.device;
-    if (response.status === 200) {
-      if (!status === "" || !status === void 0) {
-        document.getElementById("status").innerHTML = status;
-      }
-      if (!device === "" || !device === void 0) {
-        document.getElementById("device").innerHTML = device;
-      }
-    }
+import { onMounted, ref } from "vue";
+
+const vite_name = import.meta.env.VITE_NAME;
+const name = ref(null);
+const status = ref(null);
+const computer = ref(null);
+const tablet = ref(null);
+const phone = ref(null);
+const text = ref(null);
+onMounted(() => {
+  if (vite_name) {
+    document.title = vite_name + " 活着吗？";
+    name.value.textContent = vite_name;
+  }
+  fetch("/api/get", {
+    method: "GET",
   })
-  .catch(() => {});
+    .then((response) => {
+      const json = response.json();
+      if (response.status === 200) {
+        if (json.status) {
+          if (status.value === 1) {
+            status.value.style.color = "gray";
+            status.value.textContent = "似了";
+            text.value.textContent =
+              "睡似了或其他原因不在线，紧急情况请使用电话联系。";
+          }
+        }
+        if (json.devices.computer) {
+          computer.value.style = "";
+          computer.value.textContent = json.devices.computer;
+        }
+        if (json.devices.tablet) {
+          tablet.value.style = "";
+          tablet.value.textContent = json.devices.tablet;
+        }
+        if (json.devices.phone) {
+          phone.value.style = "";
+          phone.value.textContent = json.devices.phone;
+        }
+      }
+    })
+    .catch(() => {});
+});
 </script>
 
 <template>
@@ -28,11 +55,29 @@ fetch("/api/get", {
       </ruby>
     </h1>
     <h3>
-      <i><b>小源151</b></i> 的状态：<br />
-      <a style="color: rgb(16, 128, 0)" id="status">活着</a>
+      <i><b ref="name">小源151</b></i> 的状态：<br />
+      <a ref="status" style="color: rgb(16, 128, 0)">活着</a>
     </h3>
-    <p>目前在线，可以通过任何可用的联系方式联系本人。</p>
-    <p id="device"></p>
+    <div class="devices">
+      <div class="card">
+        <font-awesome-icon :icon="['fas', 'laptop']" size="2x" />
+        电脑
+        <p ref="computer" style="color: gray">未使用</p>
+      </div>
+      <div class="card">
+        <font-awesome-icon :icon="['fas', 'tablet-screen-button']" size="2x" />
+        平板
+        <p ref="tablet" style="color: gray">未使用</p>
+      </div>
+      <div class="card">
+        <font-awesome-icon :icon="['fas', 'mobile-screen-button']" size="2x" />
+        手机
+        <p ref="phone" style="color: gray">未使用</p>
+      </div>
+    </div>
+    <p ref="text" class="text">
+      目前在线，可以通过任何可用的联系方式联系本人。
+    </p>
   </div>
 </template>
 
@@ -46,6 +91,7 @@ fetch("/api/get", {
   padding: 2rem 1rem;
   border: 1px solid var(--color-border);
   border-radius: 10px;
+  overflow: scroll;
   background-color: var(--color-background);
   text-shadow: 0 1px 2px var(--color-background-soft);
   box-shadow: 0 8px 32px var(--color-background-soft);
@@ -58,7 +104,38 @@ fetch("/api/get", {
   box-shadow: 0 16px 64px var(--color-background-soft);
 }
 
-.container p {
+.devices {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.card {
+  width: 50%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background-color: var(--color-background-soft);
+  text-shadow: 0 1px 2px var(--color-background-mute);
+  box-shadow: 0 4px 16px var(--color-background-mute);
+}
+
+.card:hover {
+  transition: all 0.3s;
+  transform: translateY(-5px);
+  border: 1px solid var(--color-border-hover);
+  box-shadow: 0 8px 32px var(--color-background-mute);
+}
+
+.text {
   font-size: 1.1em;
   margin: 1rem;
 }

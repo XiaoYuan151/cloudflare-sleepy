@@ -6,9 +6,14 @@ interface Env {
 
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const status = await env.KV.get("status");
-  const device = await env.KV.get("device");
+  const computer = await env.KV.get("computer");
+  const tablet = await env.KV.get("tablet");
+  const phone = await env.KV.get("phone");
   return new (Response as any)(
-    JSON.stringify({ status: status, device: device }),
+    JSON.stringify({
+      status: status,
+      devices: { computer: computer, tablet: tablet, phone: phone },
+    }),
     {
       status: 200,
       headers: {

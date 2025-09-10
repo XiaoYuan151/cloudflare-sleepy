@@ -6,8 +6,11 @@ interface Env {
 }
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
-  const body: { secret: string; status: string; device: string } =
-    await request.json();
+  const body: {
+    secret: string;
+    status: number;
+    device: { type: string; status: string };
+  } = await request.json();
   if (!body.secret === env.SECRET) {
     return new Response(JSON.stringify({ message: "Unauthorized" }), {
       status: 401,
@@ -16,11 +19,11 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       },
     });
   }
-  if (!body.status === "" || !body.status === void 0) {
+  if (body.status) {
     env.KV.put("status", body.status);
   }
-  if (!body.device === "" || !body.device === void 0) {
-    env.KV.put("device", body.device);
+  if (body.device.type && body.device.status) {
+    env.KV.put(body.device.type, body.device.status);
   }
   return new (Response as any)(JSON.stringify({ message: "Successful" }), {
     status: 200,
