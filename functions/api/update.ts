@@ -11,36 +11,37 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     status: number;
     device: { type: string; status: string };
   } = await request.json();
-  if (!body.secret === env.SECRET) {
+  if (body.secret === env.SECRET) {
+    try {
+      if (body.status) {
+        await env.KV.put("status", body.status);
+      }
+      if (body.device && body.device.type && body.device.status) {
+        await env.KV.put(body.device.type, body.device.status);
+      }
+      return new (Response as any)(JSON.stringify({ message: "Successful" }), {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error: any) {
+      return new (Response as any)(
+        JSON.stringify({ message: "Failed: " + error.message }),
+        {
+          status: 400,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+    }
+  } else {
     return new Response(JSON.stringify({ message: "Unauthorized" }), {
       status: 401,
       headers: {
         "Content-Type": "application/json",
       },
     });
-  }
-  try {
-    if (body.status) {
-      await env.KV.put("status", body.status);
-    }
-    if (body.device && body.device.type && body.device.status) {
-      await env.KV.put(body.device.type, body.device.status);
-    }
-    return new (Response as any)(JSON.stringify({ message: "Successful" }), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  } catch (error: any) {
-    return new (Response as any)(
-      JSON.stringify({ message: "Failed: " + error.message }),
-      {
-        status: 400,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
   }
 };
