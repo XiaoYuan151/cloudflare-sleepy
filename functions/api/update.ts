@@ -19,16 +19,28 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       },
     });
   }
-  if (body.status) {
-    env.KV.put("status", body.status);
+  try {
+    if (body.status) {
+      await env.KV.put("status", body.status);
+    }
+    if (body.device.type && body.device.status) {
+      await env.KV.put(body.device.type, body.device.status);
+    }
+    return new (Response as any)(JSON.stringify({ message: "Successful" }), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } catch (error: any) {
+    return new (Response as any)(
+      JSON.stringify({ message: "Failed: " + error.message }),
+      {
+        status: 400,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
   }
-  if (body.device.type && body.device.status) {
-    env.KV.put(body.device.type, body.device.status);
-  }
-  return new (Response as any)(JSON.stringify({ message: "Successful" }), {
-    status: 200,
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
 };
