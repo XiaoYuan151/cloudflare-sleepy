@@ -25,20 +25,34 @@ onMounted(() => {
             status.value.textContent = "似了";
             text.value.textContent =
               "睡似了或其他原因不在线，紧急情况请使用电话联系。";
+          } else {
+            status.value.style.color = "rgb(16, 128, 0)";
+            status.value.textContent = "活着";
+            text.value.textContent =
+              "目前在线，可以通过任何可用的联系方式联系本人。";
           }
         }
         if (json.devices) {
           if (json.devices.computer) {
             computer.value.style = "";
             computer.value.textContent = json.devices.computer;
+          } else {
+            computer.value.style = "gray";
+            computer.value.textContent = "未使用";
           }
           if (json.devices.tablet) {
             tablet.value.style = "";
             tablet.value.textContent = json.devices.tablet;
+          } else {
+            tablet.value.style = "gray";
+            tablet.value.textContent = "未使用";
           }
           if (json.devices.phone) {
             phone.value.style = "";
             phone.value.textContent = json.devices.phone;
+          } else {
+            phone.value.style = "gray";
+            phone.value.textContent = "未使用";
           }
         }
       }
@@ -57,29 +71,27 @@ onMounted(() => {
       </ruby>
     </h1>
     <h3>
-      <i><b ref="name">小源151</b></i> 的状态：<br />
-      <a ref="status" style="color: rgb(16, 128, 0)">活着</a>
+      <i><b ref="name"></b></i> 的状态：<br />
+      <a ref="status"></a>
     </h3>
     <div class="devices">
       <div class="card">
         <font-awesome-icon :icon="['fas', 'laptop']" size="2x" />
         电脑
-        <p ref="computer" style="color: gray">未使用</p>
+        <p ref="computer"></p>
       </div>
       <div class="card">
         <font-awesome-icon :icon="['fas', 'tablet-screen-button']" size="2x" />
         平板
-        <p ref="tablet" style="color: gray">未使用</p>
+        <p ref="tablet"></p>
       </div>
       <div class="card">
         <font-awesome-icon :icon="['fas', 'mobile-screen-button']" size="2x" />
         手机
-        <p ref="phone" style="color: gray">未使用</p>
+        <p ref="phone"></p>
       </div>
     </div>
-    <p ref="text" class="text">
-      目前在线，可以通过任何可用的联系方式联系本人。
-    </p>
+    <p ref="text" class="text"></p>
   </div>
 </template>
 
@@ -135,6 +147,11 @@ onMounted(() => {
   transform: translateY(-5px);
   border: 1px solid var(--color-border-hover);
   box-shadow: 0 8px 32px var(--color-background-mute);
+}
+
+.card p {
+  width: 100%;
+  text-overflow: ellipsis;
 }
 
 .text {
