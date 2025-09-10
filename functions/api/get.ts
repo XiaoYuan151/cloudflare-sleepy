@@ -5,10 +5,10 @@ interface Env {
 }
 
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
-  const status = await env.KV.get("status");
-  const computer = await env.KV.get("computer");
-  const tablet = await env.KV.get("tablet");
-  const phone = await env.KV.get("phone");
+  const status: number = await env.KV.get("status");
+  const computer: string = await env.KV.get("computer");
+  const tablet: string = await env.KV.get("tablet");
+  const phone: string = await env.KV.get("phone");
   return new (Response as any)(
     JSON.stringify({
       status: status,
