@@ -20,24 +20,26 @@ onMounted(() => {
       const json = response.json();
       if (response.status === 200) {
         if (json.status) {
-          if (status.value === 1) {
+          if (json.status === 1 || json.status === "1") {
             status.value.style.color = "gray";
             status.value.textContent = "似了";
             text.value.textContent =
               "睡似了或其他原因不在线，紧急情况请使用电话联系。";
           }
         }
-        if (json.devices.computer) {
-          computer.value.style = "";
-          computer.value.textContent = json.devices.computer;
-        }
-        if (json.devices.tablet) {
-          tablet.value.style = "";
-          tablet.value.textContent = json.devices.tablet;
-        }
-        if (json.devices.phone) {
-          phone.value.style = "";
-          phone.value.textContent = json.devices.phone;
+        if (json.devices) {
+          if (json.devices.computer) {
+            computer.value.style = "";
+            computer.value.textContent = json.devices.computer;
+          }
+          if (json.devices.tablet) {
+            tablet.value.style = "";
+            tablet.value.textContent = json.devices.tablet;
+          }
+          if (json.devices.phone) {
+            phone.value.style = "";
+            phone.value.textContent = json.devices.phone;
+          }
         }
       }
     })
