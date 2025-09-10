@@ -20,7 +20,7 @@ onMounted(() => {
       const json = await response.json();
       if (response.status === 200) {
         if (json.status) {
-          if (json.status === 1 || json.status === "1") {
+          if (json.status === "1") {
             status.value.style.color = "gray";
             status.value.textContent = "似了";
             text.value.textContent =

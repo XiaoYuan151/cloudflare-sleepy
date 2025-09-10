@@ -6,18 +6,14 @@ interface Env {
 }
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
-  const body: {
-    secret: string;
-    status: number;
-    device: { type: string; status: string };
-  } = await request.json();
+  const body = await request.json();
   if (body.secret === env.SECRET) {
     try {
       if (body.status) {
         await env.KV.put("status", body.status);
       }
-      if (body.device && body.device.type && body.device.status) {
-        await env.KV.put(body.device.type, body.device.status);
+      if (body.devices && body.devices.type && body.devices.status) {
+        await env.KV.put(body.devices.type, body.devices.status);
       }
       return new (Response as any)(JSON.stringify({ message: "Successful" }), {
         status: 200,
