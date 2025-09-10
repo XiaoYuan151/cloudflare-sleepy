@@ -23,7 +23,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     if (body.status) {
       await env.KV.put("status", body.status);
     }
-    if (body.device.type && body.device.status) {
+    if (body.device && body.device.type && body.device.status) {
       await env.KV.put(body.device.type, body.device.status);
     }
     return new (Response as any)(JSON.stringify({ message: "Successful" }), {
