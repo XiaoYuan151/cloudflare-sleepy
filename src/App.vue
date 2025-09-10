@@ -16,8 +16,8 @@ onMounted(() => {
   fetch("/api/get", {
     method: "GET",
   })
-    .then((response) => {
-      const json = response.json();
+    .then(async (response) => {
+      const json = await response.json();
       if (response.status === 200) {
         if (json.status) {
           if (json.status === 1 || json.status === "1") {
