@@ -97,15 +97,15 @@ onMounted(() => {
 
 <style scoped>
 .container {
-  width: 50%;
-  height: 50%;
+  width: 40vw;
+  height: 50vh;
   color: var(--color-text);
   text-align: center;
   font-size: 1.1em;
   padding: 2rem 1rem;
   border: 1px solid var(--color-border);
   border-radius: 10px;
-  overflow: scroll;
+  overflow: hidden;
   background-color: var(--color-background);
   text-shadow: 0 1px 2px var(--color-background-soft);
   box-shadow: 0 8px 32px var(--color-background-soft);
@@ -134,6 +134,7 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   padding: 2rem 1rem;
   border: 1px solid var(--color-border);
   border-radius: 10px;
