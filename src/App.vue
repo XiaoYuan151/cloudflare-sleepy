@@ -10,7 +10,7 @@ const phone = ref(null);
 const text = ref(null);
 onMounted(() => {
   if (vite_name) {
-    document.title = vite_name + " 活着吗？";
+    document.title = `${vite_name} 活着吗？`;
     name.value.textContent = vite_name;
   }
   fetch("/api/get", {
