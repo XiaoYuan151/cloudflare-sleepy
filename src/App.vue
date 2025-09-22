@@ -97,8 +97,9 @@ onMounted(() => {
 
 <style scoped>
 .container {
-  width: 40vw;
-  height: 50vh;
+  width: 100%;
+  max-width: 760px;
+  max-height: 600px;
   color: var(--color-text);
   text-align: center;
   font-size: 1.1em;
